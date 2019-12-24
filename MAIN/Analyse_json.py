@@ -78,9 +78,15 @@ if __name__ == '__main__':
     com_pp = dict2json_Compress(pp)
     print(com_pp)
 
-    # collect = MONGO.MONGO_SET
-    # collect.insert(pp)
-    mon = MONGO.MONGO
-    collect = mon['test']['new']
-    collect.insert(pp)
+    from pymongo import MongoClient
+
+    MONGO = MongoClient('127.0.0.1', 27017)
+    db = MONGO.test1
+    col = db.new
+    print(db)
+    print(col)
+    col.insert_one(pp)
+    for row in col.find():
+        print(row)
+
 
