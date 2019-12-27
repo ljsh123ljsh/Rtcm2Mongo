@@ -1,4 +1,4 @@
-from MAIN import *
+from CLIENT import *
 
 '''
 模拟 + 解析

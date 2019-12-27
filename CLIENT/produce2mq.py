@@ -1,4 +1,4 @@
-from MAIN import *
+from CLIENT import *
 
 def genGGA(hhddss):
     B0 = 3107.67923534
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     channel = RABBITMQ.RABBITMQ
     ex = RABBITMQ.exchange
-    channel.exchange_declare(exchange=ex, exchange_type='topic')
+    channel.exchange_declare(exchange=ex, exchange_type='topic', durable=True)
     routing_key = 'data.msm'
 
     frequency = int(cf.get('client', 'frequency'))

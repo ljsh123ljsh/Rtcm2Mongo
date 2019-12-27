@@ -33,8 +33,4 @@ redis = {
 mongo = {
     'host': cf.get('mongo', 'host'),
     'port': cf.get('mongo', 'port'),
-    'user': cf.get('mongo', 'user'),
-    'password': cf.get('mongo', 'password'),
-    'db': cf.get('mongo', 'db'),
-    'set': cf.get('mongo', 'set')
 }
