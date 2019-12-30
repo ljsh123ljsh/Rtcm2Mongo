@@ -6,7 +6,7 @@ from stable.ClientReceiver import ClientReceiver as cr
 from json import loads
 from DB import REDIS
 from redis import StrictRedis
-
+from stable import load2redis
 # RTCM_pandas
 from pandas import DataFrame as DF
 from pandas import concat

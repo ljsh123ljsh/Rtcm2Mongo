@@ -9,6 +9,9 @@ class RTCM:
         tt = 'rtcm' + str(rtcmtype)
         try:
             DIC = r.hgetall(tt)
+        except:
+            load2redis.main()
+        try:
             # 12bits参考站ID； 30bitsGNSS历元； 1bit多点文标志； 7bits保留位； 2bits时钟校准标志； 2bits拓展时钟标志； 1bitGNSS平滑类型标志； 3bitsGNSS平滑区间  共61bits省略
             ID = data[12:24]
             gnss_liyuan = data[24:24+30]
@@ -105,7 +108,7 @@ class RTCM:
                 "参考站ID ": cd(ID).convertdecimal(),
                 "GNSS系统": gnss_system_server(gnss)}
             }
-            # print(dic_result)
+
             return dic_result
         except:
             return {'rtcm1005': '内容异常'}
