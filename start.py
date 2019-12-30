@@ -4,6 +4,7 @@ from DB.REDIS import REDIS_pool
 from multiprocessing import Process
 from MAIN.Analyse_json import Analyse_Rabbitmq_Frame
 from DB.MONGO import Mongo
+from DB.RABBITMQ import exchange
 
 def transform2mongo(id, port, content):
     collection = Mongo[id][port]
@@ -11,9 +12,8 @@ def transform2mongo(id, port, content):
 
 def get4redis(REDIS_pool):
     r = StrictRedis(connection_pool=REDIS_pool)
-    data = r.rpop('data_topic')
+    data = r.rpop(exchange)
     print(data)
-    print(r.llen('data_topic'))
     return data
 
 def analyse(data):
