@@ -21,8 +21,8 @@ def get4redis(REDIS_pool):
 
 def analyse(data):
     pp = Analyse_Rabbitmq_Frame(str(data))
-    print((pp[0], pp[1], str(pp[2])[:50]))
-    transform2mongo(pp[0], pp[1], pp[2])
+    print((pp[0], pp[1], str(pp[2])))
+    # transform2mongo(pp[0], pp[1], pp[2])
 
 def multithread():
     while 1:
