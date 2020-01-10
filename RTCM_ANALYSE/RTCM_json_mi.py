@@ -2,9 +2,10 @@ from RTCM_ANALYSE import *
 r = StrictRedis(connection_pool=REDIS.REDIS_pool)
 
 
-class RTCM:
 
-    def MSM4(self, data, rtcmtype):
+
+class MSM4():
+    def __init__(self, data, rtcmtype):
         dic_result = {}
         tt = 'rtcm' + str(rtcmtype)
         try:
@@ -74,83 +75,103 @@ class RTCM:
                 dic[key[i]] = com
                 datan = p.RestContent()
                 i += 1
-            dic_result = {
+            for i in [1, 2, 5]:
+                dic_result[key[i]] = dic[key[i]]
+            self.dic_result = {
                 'rtcm' + str(rtcmtype): dic_result
             }
-            return dic_result
         except:
-            return {tt: '内容异常'}
+            self.dic_result = {tt: '内容异常'}
+    def result(self):
+        return self.dic_result
+    def __del__(self):
+        pass
 
-
-    def rtcm1005(self, data):
+class RTCM1005():
+    def __init__(self, data):
         try:
             ID = data[12:24]
             gnss = data[30:33] + data[73]
-            dic_result = {
+            self.dic_result = {
                 'rtcm1005': {
                 "参考站ID ": cd(ID).convertdecimal(),
                 "GNSS系统": gnss_system_server(gnss)}
             }
 
-            return dic_result
+            # return dic_result
         except:
-            return {'rtcm1005': '内容异常'}
-
-    def rtcm1007(self, data):
+            self.dic_result =  {'rtcm1005': '内容异常'}
+    def result(self):
+        return self.dic_result
+    def __del__(self):
+        pass
+class RTCM1007():
+    def __init__(self, data):
         try:
             ID = data[12:24]
             n = cr(data[24:32])
-            dic_result = {
+            self.dic_result = {
                 'rtcm1007':{
                 '参考站ID': cd(ID).convertdecimal(),
                 '天线标识符': n.Getcontent()}
             }
             rdata = n.Restcontent()
-            dic_result['rtcm1007']['天线设置序列'] = int(rdata[0:8]+'0')
+            self.dic_result['rtcm1007']['天线设置序列'] = int(rdata[0:8]+'0')
             # print(dic_result)
-            return dic_result
         except:
-            return {'rtcm1007': '内容异常'}
+            self.dic_result = {'rtcm1007': '内容异常'}
+    def result(self):
+        return self.dic_result
+    def __del__(self):
+        pass
 
-    def rtcm1008(self, data):
+class RTCM1008():
+    def __init__(self, data):
         try:
             ID = data[12:24]
             n = cr(data[24:32])
-            dic_result = {
+            self.dic_result = {
                 'rtcm1008': {
                 '参考站ID': cd(ID).convertdecimal(),
                 '天线标识符': n.Getcontent()}
             }
             rdata = n.Restcontent()
-            dic_result['天线设置序列'] = int(rdata[0:8] + '0')
+            self.dic_result['天线设置序列'] = int(rdata[0:8] + '0')
             m = int(data[40+8 * n:48+8 * n])
             char2_b = data[48+8 * n:48+8 * n + 8 * m]
             char2 = bin2ascii(char2_b)
-            dic_result['rtcm1008']['天线序列号'] = char2
-            return dic_result
+            self.dic_result['rtcm1008']['天线序列号'] = char2
         except:
-            return {'rtcm1008': '内容异常'}
+            self.dic_result = {'rtcm1008': '内容异常'}
+    def result(self):
+        return self.dic_result
+    def __del__(self):
+        pass
 
-    def rtcm1033(self, data):
+class RTCM1033():
+    def __init__(self, data):
         try:
             ID = data[12:24]
             n = cr(data[24:32])
-            dic_result = {
+            self.dic_result = {
                 'rtcm1033':{
                 '参考站ID': cd(ID).convertdecimal(),
                 '天线标识符': n.Getcontent()}
             }
             rdata = n.Restcontent()
             rdata = rdata[8:]
-            dic_result['rtcm1033']['天线设置序列'] = int(rdata[0:8] + '0')
+            self.dic_result['rtcm1033']['天线设置序列'] = int(rdata[0:8] + '0')
             li = ['天线序列号', '接收机类型', '接收机固件版本', '接收机序列号']
             for i in range(4):
                 cr1 = cr(rdata)
-                dic_result['rtcm1033'][li[i]] = cr1.Getcontent()
+                self.dic_result['rtcm1033'][li[i]] = cr1.Getcontent()
                 rdata = cr1.Restcontent()
             # print(dic_result)
-            return dic_result
         except:
-            return {'rtcm1033': '内容异常'}
+            self.dic_result = {'rtcm1033': '内容异常'}
+    def result(self):
+        return self.dic_result
+    def __del__(self):
+        pass
 
 

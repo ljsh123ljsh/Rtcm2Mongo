@@ -1,5 +1,5 @@
 from MAIN import *
-from RTCM_ANALYSE.RTCM_json_mi import RTCM
+from RTCM_ANALYSE.RTCM_json import RTCM
 '''
 解析d30
 '''
@@ -75,4 +75,4 @@ def Analyse_Rabbitmq_Frame(frame):
             'client_rtcm': analyseWholeFrame(frame)
         }
         return ('novalue', 'novalue', frame_dic)
-    return (frame_list[1], frame_list[4], frame_dic)
+    return ('a'+frame_list[1], 'a'+frame_list[4], frame_dic)
