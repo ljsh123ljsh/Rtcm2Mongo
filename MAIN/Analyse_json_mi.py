@@ -31,14 +31,24 @@ def analyse(data):
     rtcm_type = data[0:12]  # 差分电文类型12bis
     if int(rtcm_type, base=2) in [1074, 1084, 1094, 1114, 1124]:
         c = (RTCM.MSM4(data, str(int(rtcm_type, base=2))))
-        return c.result()
+        res = c.result()
         del c
+        return res
     elif int(rtcm_type, base=2) == 1005:
-        return RTCM.RTCM1005(data)
+        c = RTCM.RTCM1005(data)
+        res = c.result()
+        del c
+        return res
     elif int(rtcm_type, base=2) == 1007:
-        return RTCM.RTCM1007(data)
+        c = RTCM.RTCM1007(data)
+        res = c.result()
+        del c
+        return res
     elif int(rtcm_type, base=2) == 1033:
-        return RTCM.RTCM1033(data)
+        c = RTCM.RTCM1033(data)
+        res = c.result()
+        del c
+        return res
     else:
         return {'rtcm'+str(int(rtcm_type)): "暂不支持"}
 
