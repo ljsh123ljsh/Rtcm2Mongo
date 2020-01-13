@@ -142,7 +142,7 @@ class MSM5():
             data22 = pse12.RestContent()
             pse14 = CellContent(Nsat, 14)
             pse14_li = pse14.ReturnContent(data22)
-            print(pse14_li)
+            # print(pse14_li)
             gnss = extend_satli(pse11_li, pse12_li, gnss_x, Nsig)
             gnss_00 = extend_satli(pse14_li, ['00' for i in pse14_li], gnss_x, Nsig)
             # -----------信号数据datan------------
@@ -169,7 +169,7 @@ class MSM5():
                     com = {'ifAllZero': ifAllZero, 'content': p_ll}
                 elif i == 6:
                     p_ll = nparray(p.ConvertDecimal(least=14, symbol=True)).tolist()
-                    print(p_ll)
+                    # print(p_ll)
                     ifAllZero = str(npall(p_ll == 0))
                     com = {'ifAllZero': ifAllZero, 'content': p_ll}
                 else:

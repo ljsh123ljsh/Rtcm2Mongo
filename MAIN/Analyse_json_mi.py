@@ -1,5 +1,6 @@
 from MAIN import *
 import RTCM_ANALYSE.RTCM_json_mi as RTCM
+import datetime
 '''
 解析d30
 '''
@@ -80,9 +81,11 @@ def Analyse_Rabbitmq_Frame(frame):
     '''
     try:
         frame_list = frame.split(',')
+        nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 现在
         frame_dic = {
             'client_mountpoint': frame_list[3],
             'client_time': frame_list[2],
+            'analyse_time': nowTime,
             'client_rtcm': analyseWholeFrame(frame_list[5])
         }
     except:
