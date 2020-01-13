@@ -1,6 +1,7 @@
 from MAIN import *
 import RTCM_ANALYSE.RTCM_json_mi as RTCM
 import datetime
+from time import localtime, strftime
 '''
 解析d30
 '''
@@ -79,12 +80,13 @@ def Analyse_Rabbitmq_Frame(frame):
     :param frame: 一个rabbitmq帧
     :return: 返回解析后的json
     '''
+
+    frame_list = frame.split(',')
     try:
-        frame_list = frame.split(',')
         nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # 现在
         frame_dic = {
             'client_mountpoint': frame_list[3],
-            'client_time': frame_list[2],
+            'client_time': strftime('%Y-%m-%d %H:%M:%S', localtime(float(frame_list[2]))),
             'analyse_time': nowTime,
             'client_rtcm': analyseWholeFrame(frame_list[5])
         }
