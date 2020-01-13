@@ -75,17 +75,20 @@ class MSM4():
                 dic[key[i]] = com
                 datan = p.RestContent()
                 i += 1
+
+            i += 1
+            while i < len(gnss):
+                dic['精确伪距']['content'][i] = (gnss[i] + dic['精确伪距']['content'][i]) * 299792458 / 1000
+                i += 1
+
             for i in [1, 2, 5]:
                 dic_result[key[i]] = dic[key[i]]
             self.dic_result = {
                 'rtcm' + str(rtcmtype): dic_result
             }
-            i += 1
-            while i < len(gnss):
-                dic['精确伪距']['content'][i] = (gnss[i] + dic['精确伪距']['content'][i]) * 299792458 / 1000
-                i += 1
+
         except:
-            self.dic_result = {tt: '内容异常'}
+            self.dic_result = {'rtcm' + str(rtcmtype) + '-error': '内容异常'}
     def result(self):
         return self.dic_result
     def __del__(self):
@@ -132,17 +135,18 @@ class MSM5():
             pse11_li = pse11.ReturnContent(data2)
             data22 = pse11.RestContent()
             pse13 = CellContent(Nsat, 13)
-            pse13_li = pse13.ReturnContent(data22)
+            pse13_li = pse13.ReturnContent(data22)  # 扩展卫星信息
             data22 = pse13.RestContent()
             pse12 = CellContent(Nsat, 12)
-            pse12_li = pse13.ReturnContent(data22)
+            pse12_li = pse12.ReturnContent(data22)
             data22 = pse12.RestContent()
-            pse14 = CellContent(Nsat, 12)
+            pse14 = CellContent(Nsat, 14)
             pse14_li = pse14.ReturnContent(data22)
+            print(pse14_li)
             gnss = extend_satli(pse11_li, pse12_li, gnss_x, Nsig)
-            gnss_00 = extend_satli(pse14_li, [0 for i in pse14_li], gnss_x, Nsig)
+            gnss_00 = extend_satli(pse14_li, ['00' for i in pse14_li], gnss_x, Nsig)
             # -----------信号数据datan------------
-            datan = pse12.RestContent()
+            datan = pse14.RestContent()
             dic = {}
             key = {1: '精确伪距', 2: '载波相位', 5: '信噪比CNR', 6: '精确相位距离变化率'}
             i = 1
@@ -165,6 +169,7 @@ class MSM5():
                     com = {'ifAllZero': ifAllZero, 'content': p_ll}
                 elif i == 6:
                     p_ll = nparray(p.ConvertDecimal(least=14, symbol=True)).tolist()
+                    print(p_ll)
                     ifAllZero = str(npall(p_ll == 0))
                     com = {'ifAllZero': ifAllZero, 'content': p_ll}
                 else:
@@ -173,11 +178,6 @@ class MSM5():
                 dic[key[i]] = com
                 datan = p.RestContent()
                 i += 1
-            for i in [1, 2, 5]:
-                dic_result[key[i]] = dic[key[i]]
-            self.dic_result = {
-                'rtcm' + str(rtcmtype): dic_result
-            }
             i = 0
             while i < len(gnss):
                 dic['精确伪距']['content'][i] = (gnss[i] + dic['精确伪距']['content'][i]) * 299792458 / 1000
@@ -186,8 +186,14 @@ class MSM5():
             while i < len(gnss_00):
                 dic['精确相位距离变化率']['content'][i] = (gnss_00[i] + dic['精确相位距离变化率']['content'][i]) * 1
                 i += 1
+            for i in [1, 2, 5, 6]:
+                dic_result[key[i]] = dic[key[i]]
+            self.dic_result = {
+                'rtcm' + str(rtcmtype): dic_result
+            }
+
         except:
-            self.dic_result = {tt: '内容异常'}
+            self.dic_result = {'rtcm' + str(rtcmtype) + '-error': '内容异常'}
     def result(self):
         return self.dic_result
     def __del__(self):
@@ -206,7 +212,7 @@ class RTCM1005():
 
             # return dic_result
         except:
-            self.dic_result =  {'rtcm1005': '内容异常'}
+            self.dic_result = {'rtcm1005' + '-error': '内容异常'}
     def result(self):
         return self.dic_result
     def __del__(self):
@@ -225,7 +231,7 @@ class RTCM1007():
             self.dic_result['rtcm1007']['天线设置序列'] = int(rdata[0:8]+'0')
             # print(dic_result)
         except:
-            self.dic_result = {'rtcm1007': '内容异常'}
+            self.dic_result = {'rtcm1007' + '-error': '内容异常'}
     def result(self):
         return self.dic_result
     def __del__(self):
@@ -248,7 +254,7 @@ class RTCM1008():
             char2 = bin2ascii(char2_b)
             self.dic_result['rtcm1008']['天线序列号'] = char2
         except:
-            self.dic_result = {'rtcm1008': '内容异常'}
+            self.dic_result = {'rtcm1008' + '-error': '内容异常'}
     def result(self):
         return self.dic_result
     def __del__(self):
@@ -274,7 +280,7 @@ class RTCM1033():
                 rdata = cr1.Restcontent()
             # print(dic_result)
         except:
-            self.dic_result = {'rtcm1033': '内容异常'}
+            self.dic_result = {'rtcm1033' + '-error': '内容异常'}
     def result(self):
         return self.dic_result
     def __del__(self):

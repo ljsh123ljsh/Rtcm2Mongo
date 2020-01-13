@@ -34,6 +34,11 @@ def analyse(data):
         res = c.result()
         del c
         return res
+    elif int(rtcm_type, base=2) in [1075, 1085, 1095, 1115, 1125]:
+        c = (RTCM.MSM5(data, str(int(rtcm_type, base=2))))
+        res = c.result()
+        del c
+        return res
     elif int(rtcm_type, base=2) == 1005:
         c = RTCM.RTCM1005(data)
         res = c.result()
@@ -50,7 +55,7 @@ def analyse(data):
         del c
         return res
     else:
-        return {'rtcm'+str(int(rtcm_type)): "暂不支持"}
+        return {'rtcm'+str(int(rtcm_type, 2)): "暂不支持"}
 
 
 def analyseWholeFrame(content):
