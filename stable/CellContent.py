@@ -3,7 +3,7 @@ class CellContent:
     def __init__(self, cycle, cycle_type):
         '''
         :param cycle: (int)循环次数
-        :param cycle_type: (int){'精确伪距观测值':1,'概略伪距整数':11,'概略伪距小数':12'相位观测值':2,'相位距离锁定时间标志':3,'版周期模糊度标志':4,'GNSS信号CNR'：5}
+        :param cycle_type: (int){'精确伪距观测值':1,'概略伪距整数':11,'概略伪距小数':12,'扩展卫星信息':13, 'GNSS 卫星概略相位距离变化率 ':14, '相位观测值':2,'相位距离锁定时间标志':3,'版周期模糊度标志':4,'GNSS信号CNR'：5}
         '''
         self.cycle = cycle
         self.cycle_type = cycle_type
@@ -14,7 +14,7 @@ class CellContent:
         :return: 返回信号数据列表
         '''
         self.__data = data
-        dic = {1: 15, 2: 22, 3: 4, 4: 1, 5: 6, 11: 8, 12: 10}
+        dic = {1: 15, 2: 22, 3: 4, 4: 1, 5: 6, 6: 15, 11: 8, 12: 10, 13: 4, 14: 14}
         lis = []
         value = dic[self.cycle_type]
         for i in range(self.cycle):

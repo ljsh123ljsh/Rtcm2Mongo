@@ -15,7 +15,6 @@ def main():
         results = cursor.fetchall()
         cursor.execute('SHOW COLUMNS FROM '+table)
         cols = cursor.fetchall()
-        print(table)
         for result in results:
             value = {
                 cols[1][0]: result[1],
@@ -24,6 +23,7 @@ def main():
                 cols[4][0]: result[4]
             }
             value = json.dumps(value)
-            r.hset(table, result[0], value)
+            r.hset(table[:-1], result[0], value)
+        print(table[:-1])
 if __name__ == '__main__':
     main()
