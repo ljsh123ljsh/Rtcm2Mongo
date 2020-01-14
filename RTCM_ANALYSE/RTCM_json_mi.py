@@ -77,6 +77,7 @@ class MSM4():
                 i += 1
 
             i += 1
+            i = 0
             while i < len(gnss):
                 dic['精确伪距']['content'][i] = (gnss[i] + dic['精确伪距']['content'][i]) * 299792458 / 1000
                 i += 1
