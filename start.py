@@ -11,6 +11,7 @@ class Nonedata(Exception):
 def transform2mongo(id, port, content):
     collection = Mongo[id][port]
     collection.insert_one(content)
+    print((id, port, str(content)))
 
 def get4redis(REDIS_pool):
     r = StrictRedis(connection_pool=REDIS_pool)
@@ -21,7 +22,7 @@ def get4redis(REDIS_pool):
 
 def analyse(data):
     pp = Analyse_Rabbitmq_Frame(str(data))
-    print((pp[0], pp[1], str(pp[2])))
+    # print((pp[0], pp[1], str(pp[2])))
     transform2mongo(pp[0], pp[1], pp[2])
 
 

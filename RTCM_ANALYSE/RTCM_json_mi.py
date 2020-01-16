@@ -9,7 +9,7 @@ class MSM4():
         dic_result = {}
         tt = 'rtcm' + str(rtcmtype)[:-1]
         DIC = r.hgetall(tt)
-        if DIC == None:
+        if not DIC:
             load2redis.main()
             DIC = r.hgetall(tt)
         try:
@@ -100,7 +100,7 @@ class MSM5():
         dic_result = {}
         tt = 'rtcm' + str(rtcmtype)[:-1]
         DIC = r.hgetall(tt)
-        if DIC == None:
+        if not DIC:
             load2redis.main()
             DIC = r.hgetall(tt)
         try:
