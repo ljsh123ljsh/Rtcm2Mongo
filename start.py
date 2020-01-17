@@ -28,7 +28,8 @@ def analyse(data):
 class multithreadpool():
     def start(self):
         self.threadPool = ThreadPoolExecutor(max_workers=40, thread_name_prefix="test_")
-        for i in range(40*2000):
+        for i in range(40*20):
+            print(i)
             try:
                 self.threadPool.submit(analyse, get4redis(REDIS_pool))
             except Nonedata:
