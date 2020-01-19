@@ -4,6 +4,7 @@ from MAIN.Analyse_json_mi import Analyse_Rabbitmq_Frame
 from DB.MONGO import Mongo
 from DB.RABBITMQ import exchange
 from concurrent.futures import ThreadPoolExecutor
+from copy import deepcopy
 from time import sleep
 class Nonedata(Exception):
     pass
@@ -28,7 +29,7 @@ def analyse(data):
 class multithreadpool():
     def start(self):
         self.threadPool = ThreadPoolExecutor(max_workers=40, thread_name_prefix="test_")
-        for i in range(40*20):
+        for i in range(40*1000):
             print(i)
             try:
                 self.threadPool.submit(analyse, get4redis(REDIS_pool))
@@ -48,12 +49,19 @@ if __name__ == '__main__':
         print("waiting ......")
         r = StrictRedis(connection_pool=REDIS_pool)
         l = r.llen(exchange)
+
         if l >= 1000:
             mul = multithreadpool()
             mul.start()
             del mul
         else:
-            sleep(20)
+            sleep(120)
+            if l <= r.llen(exchange)-100:
+                mul = multithreadpool()
+                mul.start()
+                del mul
+
+
 
 
 
