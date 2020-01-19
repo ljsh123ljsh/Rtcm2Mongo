@@ -27,9 +27,9 @@ def analyse(data):
 
 
 class multithreadpool():
-    def start(self):
+    def start(self, times):
         self.threadPool = ThreadPoolExecutor(max_workers=40, thread_name_prefix="test_")
-        for i in range(40*1000):
+        for i in range(40*times):
             print(i)
             try:
                 self.threadPool.submit(analyse, get4redis(REDIS_pool))
@@ -52,13 +52,13 @@ if __name__ == '__main__':
 
         if l >= 1000:
             mul = multithreadpool()
-            mul.start()
+            mul.start(1000)
             del mul
         else:
             sleep(120)
             if l <= r.llen(exchange)-100:
                 mul = multithreadpool()
-                mul.start()
+                mul.start(50)
                 del mul
 
 
