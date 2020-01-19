@@ -56,7 +56,7 @@ if __name__ == '__main__':
             del mul
         else:
             sleep(120)
-            if l <= r.llen(exchange)-100:
+            if l + 380 >= r.llen(exchange):
                 mul = multithreadpool()
                 mul.start(50)
                 del mul
